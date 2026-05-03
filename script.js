@@ -717,7 +717,7 @@ window.processOrder = async function(e) {
     message += `*TOTAL:* ${formatPrice(total)}`;
 
     const encodedMessage = encodeURIComponent(message);
-    const phoneNumber = "5511999999999"; // Substitua pelo número real da loja (DDD + Número)
+    const phoneNumber = "551199984953590"; // Substitua pelo número real da loja (DDD + Número)
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
     // Abre o WhatsApp em uma nova aba com a mensagem preenchida
