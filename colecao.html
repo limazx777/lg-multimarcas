@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coleção Completa | LG GRIFES</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+</head>
+<body>
+
+    <!-- Alerta de Estoque -->
+    <div id="stock-alert" class="stock-alert"></div>
+
+    <header class="header scrolled"> <!-- Forçamos o estilo scrolled para visibilidade -->
+        <div class="logo">
+            <a href="index.html"><img src="./img/logo.png" alt="Lg Grife Logo" class="logo-img"></a>
+        </div>
+        <nav class="nav-menu" id="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="colecao.html" class="active">Coleção</a>
+        </nav>
+        <div class="header-actions">
+            <div class="cart-icon" onclick="toggleCart()">
+                <i data-lucide="shopping-bag"></i>
+                <span class="cart-count">0</span>
+            </div>
+            <div class="menu-toggle" id="mobile-menu" onclick="toggleMenu()">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+        </div>
+    </header>
+
+    <section class="collection-header" style="padding-top: 100px; text-align: center;">
+        <h1 class="section-title">CAMISAS EXCLUSIVAS</h1>
+    </section>
+
+    <section id="shop" class="products-grid">
+        <!-- Renderizado via JS -->
+    </section>
+
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Seu Carrinho</h2>
+            <button onclick="toggleCart()" class="close-cart">&times;</button>
+        </div>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total">Total: <span id="cart-total-value">R$ 0,00</span></div>
+            <button class="btn-gold" onclick="checkout()">Finalizar Compra</button>
+        </div>
+    </div>
+
+    <!-- Modal de Checkout -->
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content checkout-content">
+            <span class="close-modal" onclick="closeCheckoutModal()">&times;</span>
+            <h2 class="section-title">Finalizar Pedido</h2>
+            <form id="checkout-form" onsubmit="processOrder(event)">
+                <div class="form-group">
+                    <label>Tipo de Retirada</label>
+                    <div class="delivery-options">
+                        <label><input type="radio" name="delivery-type" value="entrega" checked onchange="toggleAddressFields(true)"> <span>Receber</span></label>
+                        <label><input type="radio" name="delivery-type" value="retirada" onchange="toggleAddressFields(false)"> <span>Retirar</span></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="checkout-name">Nome Completo</label>
+                    <input type="text" id="checkout-name" required placeholder="Ex: Gabriel Lima">
+                </div>
+                <div id="address-section">
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 2;">
+                            <label for="checkout-street">Rua</label>
+                            <input type="text" id="checkout-street" placeholder="Nome da rua">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="checkout-number">Número</label>
+                            <input type="text" id="checkout-number" placeholder="Nº">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-neighborhood">Bairro</label>
+                        <input type="text" id="checkout-neighborhood" placeholder="Seu bairro">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="checkout-payment">Forma de Pagamento</label>
+                    <select id="checkout-payment" required onchange="handlePaymentChange(this.value)">
+                        <option value="pix">Pix</option>
+                        <option value="cartao">Cartão</option>
+                        <option value="dinheiro">Dinheiro</option>
+                    </select>
+                </div>
+                <div id="change-section" style="display: none;">
+                    <div class="form-group">
+                        <label for="checkout-change">Troco para quanto?</label>
+                        <input type="text" id="checkout-change" placeholder="Deixe vazio se não precisar de troco">
+                    </div>
+                </div>
+                <div class="checkout-summary">
+                    <p>Total do Pedido: <span id="checkout-total-display"></span></p>
+                </div>
+                <button type="submit" class="btn-gold" style="width: 100%; margin-top: 1rem;">CONFIRMAR PEDIDO</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Sucesso -->
+    <div id="success-modal" class="success-modal">
+        <div class="success-content">
+            <div class="success-icon">
+                <i data-lucide="check-circle-2" size="24"></i>
+            </div>
+            <span id="success-product-info" class="success-msg"></span>
+            <div class="progress-bar"></div>
+            </div>
+    </div>
+
+    <!-- Visualizador de Imagem (Lightbox) -->
+    <div id="image-viewer" class="image-viewer" onclick="closeImageViewer()">
+        <span class="close-viewer">&times;</span>
+        <div class="viewer-content">
+            <img id="viewer-img" src="" alt="Ampliação">
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>LG GRIFES - MODA MASCULINA</h3>
+                <p>Sofisticação em cada detalhe, com tecidos nobres e design pensado para quem valoriza exclusividade.</p>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2026 LG GRIFES. Todos os direitos reservados.</p>
+        <p style="text-align: center; color: #fff; font-size: 0.65rem; margin-top: 8px; letter-spacing: 1px; font-family: var(--font-body);">Site desenvolvido por <a href="https://www.instagram.com/limazx.s/" target="_blank" style="color: inherit; text-decoration: none; transition: 0.3s; font-weight: bold;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='inherit'">Limazx</a></p>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
